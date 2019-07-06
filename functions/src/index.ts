@@ -8,6 +8,7 @@ import * as functions from "firebase-functions";
 //
 export const helloWorld = functions
   .region("asia-northeast1")
-  .https.onRequest((request, response) => {
+  .https.onRequest((request, response): void => {
     response.send("Hello from Firebase!");
   });
+
