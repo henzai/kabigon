@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { pinyin } from "./app/api/translator";
+import * as SpeechService from "./app/api/speechservice";
 
 admin.initializeApp();
 
@@ -40,3 +41,28 @@ export const createUser = functions
   );
 
 // センテンスが追加されたら音声データを取得してストレージに保存する
+export const onCreateSaveSpeechAudio = functions
+  .region("asia-northeast1")
+  .firestore.document("sentences/{sentenceId}")
+  .onCreate(
+    async (snap): Promise<FirebaseFirestore.WriteResult> => {
+      const key = functions.config().speech_service.key;
+      const text: string = snap.get("originalText");
+      try {
+        const token = await SpeechService.getAccessToken(key);
+        const audio = await SpeechService.getAudio(text, token);
+        const storage = admin.storage();
+        const bucket = storage.bucket("learning-chinese-sentences-audio");
+        const file = bucket.file(snap.id);
+        await file.save(audio);
+        const url = await file.getSignedUrl({
+          action: "read",
+          expires: new Date()
+        });
+        return snap.ref.set({ audioUrl: url }, { merge: true });
+      } catch (error) {
+        console.log(`Error! HTTP Status: ${error} `);
+        throw new Error("error");
+      }
+    }
+  );
