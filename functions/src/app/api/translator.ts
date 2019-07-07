@@ -34,10 +34,6 @@ export const pinyin = async (text: string, key: string): Promise<string> => {
   ];
   const options = getOptions(key);
   const cli = axios.create(options);
-  cli.interceptors.request.use(request => {
-    console.log("Starting Request: ", request);
-    return request;
-  });
 
   try {
     const res = await cli.post(transliterateURL, body, {

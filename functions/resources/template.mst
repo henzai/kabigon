@@ -1,0 +1,8 @@
+<speak version='1.0' xmlns="https://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang='zh-CN'>
+<voice xml:lang='zh-CN' xml:gender='Female' name='zh-CN-XiaoxiaoNeural'>
+<prosody rate="-10.00%">
+<mstts:express-as type="newscast"> 
+{{text}}
+</mstts:express-as>
+</prosody>
+</voice></speak>

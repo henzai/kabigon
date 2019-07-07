@@ -2,7 +2,7 @@
 <voice xml:lang='zh-CN' xml:gender='Female' name='zh-CN-XiaoxiaoNeural'>
 <prosody rate="-10.00%">
 <mstts:express-as type="newscast"> 
-    我从香港机场飞往上海
+我是中国人
 </mstts:express-as>
 </prosody>
 </voice></speak>
