@@ -17,7 +17,7 @@ export const getAccessToken = async (key: string) => {
     return res.data;
   } catch (error) {
     console.log(`Error! HTTP Status: ${error} `);
-    return "";
+    throw new Error("error");
   }
 };
 
