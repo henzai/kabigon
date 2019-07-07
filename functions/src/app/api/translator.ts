@@ -25,6 +25,7 @@ const getParams = (): object => {
   };
 };
 
+// 中国語の原文からピンインを返す
 export const pinyin = async (text: string, key: string): Promise<string> => {
   const body = [
     {
