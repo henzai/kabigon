@@ -1,5 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import {pinyin} from "./app/api/translator";
+
 admin.initializeApp();
 
 //
@@ -7,14 +9,16 @@ export const createUser = functions
 .region("asia-northeast1")
 .firestore
 .document("sentences/{sentenceId}")
-.onCreate((snap):void => {
+.onCreate(async (snap):Promise<FirebaseFirestore.WriteResult> => {
 
-  const db = admin.firestore();
-  const text: string = snap.get("originalText")
-  db.collection("test").add({
-    name: text,
-  })
+  // APIキー取得
+  const key = functions.config().translator_text.key;
+  const text: string = snap.get("originalText");
+  const pinyinText = await pinyin(text, key)
   
+  return snap.ref.set({
+      pinyin: pinyinText
+  }, {merge: true});
 });
 
 //
