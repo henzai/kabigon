@@ -8,13 +8,14 @@ admin.initializeApp();
 // センテンスをコレクションに追加する
 export const addMessage = functions.region("asia-northeast1").https.onRequest(
   async (req, res): Promise<void> => {
-    // Grab the text parameter.
-    const original = req.query.text;
+    const original = req.param("originalText");
+    const translated = req.param("translatedText");
+
     // Push the new message into the Realtime Database using the Firebase Admin SDK.
     await admin
       .firestore()
       .collection("/sentences")
-      .add({ originalText: original });
+      .add({ originalText: original, translatedText: translated });
     // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
     res.sendStatus(200);
   }
@@ -61,7 +62,7 @@ export const onCreateSaveSpeechAudio = functions
         });
         return snap.ref.set({ audioUrl: url }, { merge: true });
       } catch (error) {
-        console.log(`Error! HTTP Status: ${error} `);
+        console.error(`Error! HTTP Status: ${error} `);
         throw new Error("error");
       }
     }
