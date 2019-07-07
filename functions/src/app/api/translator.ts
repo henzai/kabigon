@@ -1,5 +1,5 @@
 import uuidv4 = require("uuid/v4");
-import * as axiosBase from "axios";
+import { axios } from "./axios";
 
 // const
 const baseURL = "https://api.cognitive.microsofttranslator.com";
@@ -33,14 +33,14 @@ export const pinyin = async (text: string, key: string): Promise<string> => {
     }
   ];
   const options = getOptions(key);
-  const axios = axiosBase.default.create(options);
-  axios.interceptors.request.use(request => {
+  const cli = axios.create(options);
+  cli.interceptors.request.use(request => {
     console.log("Starting Request: ", request);
     return request;
   });
 
   try {
-    const res = await axios.post(transliterateURL, body, {
+    const res = await cli.post(transliterateURL, body, {
       params: getParams()
     });
     const pinyins = res.data;
