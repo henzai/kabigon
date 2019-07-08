@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  build:
     docker:
       - image: circleci/node:8.9.4-stretch
     steps:
@@ -14,9 +14,9 @@ jobs:
           paths:
             - functions/node_modules
           key: v1-dependencies-{{ checksum "functions/package.json" }}
-      - run: make test
+      - run: make build
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - test
+      - build
