@@ -5,4 +5,4 @@ test:
 	cd functions && npm t
 
 build:
-	cd functions && npm build
+	cd functions && npm run build
