@@ -1,15 +1,9 @@
 import * as speechService from "./speechservice";
-import * as dotenv from "dotenv";
+import * as config from "config";
 import * as fs from "fs";
 
 const getKey = () => {
-  dotenv.config();
-  const env = process.env;
-  const key = env.SPEECH_SERVICE_KEY;
-  console.log(key);
-  if (key == undefined) {
-    throw new Error("SPEECH_SERVICE_KEY is not set");
-  }
+  const key: string = config.get("speech_service.key");
   return key;
 };
 

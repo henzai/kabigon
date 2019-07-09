@@ -1,14 +1,8 @@
 import * as translatorText from "./translator";
-import * as dotenv from "dotenv";
+import * as config from "config";
 
 const getKey = () => {
-  dotenv.config();
-  const env = process.env;
-  const key = env.TRANSLATOR_KEY;
-  console.log(key);
-  if (key == undefined) {
-    throw new Error("TRANSLATOR_KEY is not set");
-  }
+  const key: string = config.get("translator_text.key");
   return key;
 };
 
