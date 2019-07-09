@@ -5,16 +5,17 @@ jobs:
       - image: circleci/node:8.9.4-stretch
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "functions/package.json" }}
-            - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "functions/package.json" }}
+      #       - v1-dependencies-
       - run: cd functions && npm install
-      - save_cache:
-          paths:
-            - functions/node_modules
-          key: v1-dependencies-{{ checksum "functions/package.json" }}
-      - run: make get-config
+      # - save_cache:
+      #     paths:
+      #       - functions/node_modules
+      #     key: v1-dependencies-{{ checksum "functions/package.json" }}
+      - run: mkdir functions/config
+      - run: cd functions && ./node_modules/.bin/firebase functions:config:get --token=$FIREBASE_TOKEN > ./config/default.json
       - run: make test
   build:
     docker:
