@@ -8,3 +8,5 @@ lib/
 typings/
 
 node_modules/
+
+config/

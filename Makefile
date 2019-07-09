@@ -1,5 +1,5 @@
 get-config:
-	firebase functions:config:get > ./.firebase.config.json
+	firebase functions:config:get > ./functions/config/default.json
 
 test:
 	cd functions && npm t
